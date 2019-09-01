@@ -65,10 +65,10 @@ class IOPump:
             print('.')
             # XXX slightly buggy in the face of incremental output
             if cData:
-                for line in cData.split('\r\n'):
+                for line in six.ensure_text(cData).split('\r\n'):
                     print('C: '+line)
             if sData:
-                for line in sData.split('\r\n'):
+                for line in six.ensure_text(cData).split('\r\n'):
                     print('S: '+line)
         if cData:
             self.server.dataReceived(cData)
