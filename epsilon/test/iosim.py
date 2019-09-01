@@ -16,9 +16,9 @@ def readAndDestroy(iodata):
         result = iodata.read()
         iodata.seek(0)
         iodata.truncate()
-    except ValueError:
-        print('<bug in FileTransport, early close>')
-        result = ''
+    except ValueError as e:
+        print('<bug in FileTransport, early close>', e)
+        result = b''
     return result
 
 
@@ -123,8 +123,8 @@ class connectedServerAndClient(tuple):
         self._result = result
         return self
 
-    def __enter__():
+    def __enter__(self):
         return self
 
-    def __close__(self, *args, **kwargs):
-        return self._result.__close__(*args, **kwargs)
+    def __exit__(self, *args, **kwargs):
+        return self._result.__exit__(*args, **kwargs)

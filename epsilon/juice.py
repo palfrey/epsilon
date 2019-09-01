@@ -73,7 +73,7 @@ class JuiceBox(dict):
 
         L.append(delimiter)
         if BODY in self:
-            L.append(self[BODY])
+            L.append(six.ensure_binary(self[BODY]))
 
         return b''.join(L)
 
@@ -460,7 +460,7 @@ class JuiceList(Argument):
         return values
 
     def toStringProto(self, inObject, proto):
-        return ''.join([objectsToStrings(
+        return b''.join([objectsToStrings(
                     objects, self.subargs, Box(), proto
                     ).serialize() for objects in inObject])
 
@@ -903,7 +903,7 @@ class Juice(LineReceiver, JuiceParserBase):
             else:
                 self._bodyBuffer.append(data)
                 extraData = ''
-            self._pendingBox['body'] = ''.join(self._bodyBuffer)
+            self._pendingBox['body'] = b''.join(self._bodyBuffer)
             self._bodyBuffer = None
             b, self._pendingBox = self._pendingBox, None
             self.juiceBoxReceived(b)
